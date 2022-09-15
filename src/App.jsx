@@ -9,8 +9,10 @@ import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import * as authService from './services/authService'
 import AddKitty from './pages/AddKitty/AddKitty'
+import * as kittyService from './services/kittyService'
 
 const App = () => {
+  const [kitties, setKitties] = useState([])
   const [user, setUser] = useState(authService.getUser())
   const navigate = useNavigate()
 
@@ -22,6 +24,11 @@ const App = () => {
 
   const handleSignupOrLogin = () => {
     setUser(authService.getUser())
+  }
+
+  const handleAddKitty = async newKittyData => {
+    const newKitty = await kittyService.create(newKittyData)
+    setKitties([...kitties, newKitty])
   }
 
   return (
@@ -41,7 +48,7 @@ const App = () => {
             />
             <Route
               path="/add"
-              element={<AddKitty />}
+              element={<AddKitty handleAddKitty={handleAddKitty} />}
             />
             <Route
               path="/profiles"

@@ -6,9 +6,7 @@ function AddKitty(props) {
     breed: '',
     age: 0
   })
-
   const [validForm, setValidForm] = useState(false)
-
   const formElement = useRef()
   
   const handleChange = evt => {
@@ -19,10 +17,15 @@ function AddKitty(props) {
     formElement.current.checkValidity() ? setValidForm(true) : setValidForm(false)
   }, [formData])
 
+  const handleSubmit = evt => {
+    evt.preventDefault()
+    props.handleAddKitty(formData)
+  }
+
 	return (
 		<>
 			<h1>Add Kitty</h1>
-			<form autoComplete="off" ref={formElement}>
+			<form autoComplete="off" ref={formElement} onSubmit={handleSubmit}>
 				<div className="form-group mb-3">
 					<label htmlFor="name-input" className="form-label">
 						Kitty's Name (required)
